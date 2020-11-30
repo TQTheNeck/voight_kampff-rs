@@ -1,4 +1,4 @@
-# Voight Kampff
+# Voight Kampff ![Crates.io](https://img.shields.io/crates/v/voight_kampff)
 
 
 This crate is a rust version of this [excellent ruby gem](https://github.com/biola/Voight-Kampff) for figuring out if a http request is from a bot/crawler/scraper/replicant. 
