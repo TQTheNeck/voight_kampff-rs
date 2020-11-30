@@ -30,7 +30,7 @@ lazy_static! {
                 Some(ret)
             }
             false => {
-                println!("crawler-user-agents.json does not exist! Get a copy from: https://github.com/monperrus/crawler-user-agents");
+                println!("crawler-user-agents.json does not exist in this directory! Get a copy from: https://github.com/monperrus/crawler-user-agents");
                 None
             }
         };
@@ -39,6 +39,14 @@ lazy_static! {
     };
 }
 
+/// Checks if a user agent is in the list of bots, if so it returns true.
+///
+/// # Example
+/// ```
+/// use voight_kampff;
+///
+/// assert_eq!(voight_kampff::bot("Googlebot ..."), true);
+/// ```
 pub fn bot(user_agent: &str) -> bool {
     UA.is_match(user_agent)
 }
