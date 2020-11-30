@@ -8,10 +8,13 @@ It relies only on the user agent that was sent and does no other checks on its o
 ### Usage
 `voight_kampff::bot()` will return true if the user agent matches a user agent in the `crawler-user-agents.json` file
 
+
+In your Cargo.toml: 
 ```toml
-voight_kampff = "0.1.0"
+voight_kampff = "0.1.1"
 ```
 
+In your code: 
 ```rust
 use voight_kampff;
 
