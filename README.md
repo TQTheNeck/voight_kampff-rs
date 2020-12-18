@@ -1,5 +1,6 @@
 # Voight Kampff [![](http://meritbadge.herokuapp.com/voight_kampff)](https://crates.io/crates/voight_kampff)
 
+
 This crate is a rust version of this [excellent ruby gem](https://github.com/biola/Voight-Kampff) for figuring out if a http request is from a bot/crawler/scraper/replicant. 
 
 It relies only on the user agent that was sent and does no other checks on its own. 
