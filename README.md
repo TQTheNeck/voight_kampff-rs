@@ -11,7 +11,7 @@ It relies only on the user agent that was sent and does no other checks on its o
 
 In your Cargo.toml: 
 ```toml
-voight_kampff = "0.1.1"
+voight_kampff = "0.1.2"
 ```
 
 In your code: 

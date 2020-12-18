@@ -8,18 +8,18 @@ use std::fs;
 use std::path::Path;
 
 lazy_static! {
-    static ref UA: regex::Regex = {
+    static ref UA: Result<regex::Regex, regex::Error> = {
         let regex = match Path::new("crawler-user-agents.json").exists() {
             true => {
                 let json =
-                    fs::read_to_string("crawler-user-agents.json").expect("Unable to read file");
-                let data: Vec<Value> = serde_json::from_str(&json).unwrap();
+                    fs::read_to_string("crawler-user-agents.json").expect("Unable to read crawler-user-agents.json");
+                let data: Vec<Value> = serde_json::from_str(&json).expect("Error converting json with serde_json");
 
                 let mut ret: String = String::from("(");
 
                 ret.push_str(
                     data.iter()
-                        .map(|i| i.get("pattern").unwrap().to_string().replace("\"", ""))
+                        .map(|item| item.get("pattern").unwrap().to_string().replace("\"", ""))
                         .collect::<Vec<String>>()
                         .join("|")
                         .as_str(),
@@ -29,13 +29,17 @@ lazy_static! {
 
                 Some(ret)
             }
-            false => {
-                println!("crawler-user-agents.json does not exist in this directory! Get a copy from: https://github.com/monperrus/crawler-user-agents");
-                None
-            }
+            false => None,
         };
 
-        Regex::new(&regex.unwrap()).unwrap()
+        match regex {
+            Some(r) => Regex::new(&r),
+            None => {
+                panic!("crawler-user-agents.json does not exist in this directory! Get a copy from: https://github.com/monperrus/crawler-user-agents");
+            }
+        }
+
+        //Regex::new(&regex.unwrap())
     };
 }
 
@@ -45,8 +49,13 @@ lazy_static! {
 /// ```
 /// use voight_kampff;
 ///
-/// assert_eq!(voight_kampff::bot("Googlebot ..."), true);
+/// assert_eq!(voight_kampff::bot("DoCoMo/2.0 N905i(c100;TB;W24H16) (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html"), true);
 /// ```
 pub fn bot(user_agent: &str) -> bool {
-    UA.is_match(user_agent)
+    match UA.as_ref() {
+        Ok(r) => r.is_match(user_agent),
+        Err(e) => {
+            panic!("Regex error: {}", e);
+        }
+    }
 }
