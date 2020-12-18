@@ -11,9 +11,10 @@ lazy_static! {
     static ref UA: Result<regex::Regex, regex::Error> = {
         let regex = match Path::new("crawler-user-agents.json").exists() {
             true => {
-                let json =
-                    fs::read_to_string("crawler-user-agents.json").expect("Unable to read crawler-user-agents.json");
-                let data: Vec<Value> = serde_json::from_str(&json).expect("Error converting json with serde_json");
+                let json = fs::read_to_string("crawler-user-agents.json")
+                    .expect("Unable to read crawler-user-agents.json");
+                let data: Vec<Value> =
+                    serde_json::from_str(&json).expect("Error converting json with serde_json");
 
                 let mut ret: String = String::from("(");
 
@@ -38,8 +39,6 @@ lazy_static! {
                 panic!("crawler-user-agents.json does not exist in this directory! Get a copy from: https://github.com/monperrus/crawler-user-agents");
             }
         }
-
-        //Regex::new(&regex.unwrap())
     };
 }
 
